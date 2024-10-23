@@ -1,5 +1,5 @@
 // pages/index.js (ou HomePage.js, dependendo do nome do seu arquivo)
-import AbrigoForm from '../app/pages/login';
+import AbrigoForm from '../app/home/page';
 
 
 const HomePage = () => {
