@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; 
-import Link from 'next/link'; 
 import axios from 'axios'; 
 
 const LoginForm = () => {
@@ -17,13 +16,13 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axios.post('http://localhost:8080/abrigos', {
         email,
         password,
       });
 
       if (response.status === 200) {
-        router.push('/abrigos');
+        router.push('/home'); // Redireciona para a página 'home' após o login
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -54,12 +53,12 @@ const LoginForm = () => {
         <button type="submit">Entrar</button>
       </form>
       
-      {/* Link para a página de cadastro de abrigos */}
+      {/* Link para a página de cadastro de abrigos */} 
       <p>
         Ainda não tem um abrigo? 
-        <Link href="/abrigos">
+        <a href="/cadastro_abrigos">
           <button>Cadastre-se aqui</button>
-        </Link>
+        </a>
       </p>
     </div>
   );

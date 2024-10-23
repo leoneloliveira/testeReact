@@ -14,7 +14,7 @@ const AdocaoForm = () => {
     e.preventDefault();
 
     // Validação básica
-    if (!idAnimal || !nomeAdotante || !telefoneAdotante || !emailAdotante) {
+    if ( !nomeAdotante || !telefoneAdotante || !emailAdotante) {
       alert('Todos os campos são obrigatórios.');
       return;
     }
