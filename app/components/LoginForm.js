@@ -1,65 +1,66 @@
 "use client"; // Adiciona isso no topo
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import axios from 'axios'; 
+import styles from '../styles/LoginForm.module.css'; // Importa o CSS
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [senha, setSenha] = useState(''); // Definindo 'senha' corretamente
   const router = useRouter();
-
-  useEffect(() => {
-    console.log("Componente LoginForm montado");
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/abrigos', {
+      const response = await axios.post('http://localhost:8080/abrigos/login', {
         email,
-        password,
+        senha, // Envia o valor de 'senha' para o backend
       });
 
       if (response.status === 200) {
         router.push('/home'); // Redireciona para a página 'home' após o login
       }
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
+      console.error('Erro ao fazer login:', error.response?.data || error.message);
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Senha:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Entrar</button>
-      </form>
-      
-      {/* Link para a página de cadastro de abrigos */} 
-      <p>
-        Ainda não tem um abrigo? 
-        <a href="/cadastro_abrigos">
-          <button>Cadastre-se aqui</button>
-        </a>
-      </p>
+    <div className={styles.container}>
+      <div className={styles.formContainer}>
+        <h1 className={styles.formTitle}>Login do Abrigo</h1>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Email:</label>
+            <input
+              type="email"
+              className={styles.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Senha:</label>
+            <input
+              type="password"
+              className={styles.input}
+              value={senha}  // Aqui estamos usando 'senha' como estado
+              onChange={(e) => setSenha(e.target.value)} // Atualiza 'senha' ao digitar
+              required
+            />
+          </div>
+          <button type="submit" className={styles.submitButton}>Entrar</button>
+        </form>
+
+        <p className={styles.signupText}>
+          Ainda não tem um abrigo?{' '}
+          <a href="/cadastro_abrigos">
+            Cadastre-se aqui
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

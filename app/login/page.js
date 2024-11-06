@@ -4,8 +4,7 @@ import Login from '../components/LoginForm'; // Ajuste o caminho conforme necess
 
 const LoginPage = () => {
   return (
-    <div>
-      <h1>Tela de Login</h1>
+    <div>    
       <Login />      
     </div>
   );
