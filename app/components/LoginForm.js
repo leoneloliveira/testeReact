@@ -19,7 +19,11 @@ const LoginForm = () => {
       });
 
       if (response.status === 200) {
-        router.push('/home'); // Redireciona para a página 'home' após o login
+        // Armazenando o nome do abrigo no localStorage
+        const nomeAbrigo = response.data.nomeAbrigo; // Agora a resposta retorna o nome do abrigo
+        localStorage.setItem("nomeAbrigo", nomeAbrigo);
+
+        router.push('/telainicial'); // Redireciona para a página 'home' após o login
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error.response?.data || error.message);

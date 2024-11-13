@@ -1,25 +1,25 @@
-// app/components/AdocaoForm.js
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Importação do useRouter
+import styles from '../styles/AdocaoForm.module.css';
 
 const AdocaoForm = () => {
-
   const [nomeAdotante, setNomeAdotante] = useState('');
   const [telefoneAdotante, setTelefoneAdotante] = useState('');
   const [emailAdotante, setEmailAdotante] = useState('');
   const [observacoes, setObservacoes] = useState('');
 
+  const router = useRouter(); // Instância do roteador
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validação básica
-    if ( !nomeAdotante || !telefoneAdotante || !emailAdotante) {
+    if (!nomeAdotante || !telefoneAdotante || !emailAdotante) {
       alert('Todos os campos são obrigatórios.');
       return;
     }
 
-    // Dados a serem enviados para a API Spring Boot
     const adocao = { nomeAdotante, telefoneAdotante, emailAdotante, observacoes };
 
     try {
@@ -33,8 +33,6 @@ const AdocaoForm = () => {
 
       if (response.ok) {
         alert('Adoção cadastrada com sucesso!');
-        // Limpar os campos após o cadastro
-        
         setNomeAdotante('');
         setTelefoneAdotante('');
         setEmailAdotante('');
@@ -49,46 +47,62 @@ const AdocaoForm = () => {
     }
   };
 
+  const handleBack = () => {
+    router.back(); // Navega para a página anterior
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      
-      <div>
-        <label>Nome do Adotante:</label>
-        <input
-          type="text"
-          value={nomeAdotante}
-          onChange={(e) => setNomeAdotante(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Telefone do Adotante:</label>
-        <input
-          type="tel"
-          value={telefoneAdotante}
-          onChange={(e) => setTelefoneAdotante(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Email do Adotante:</label>
-        <input
-          type="email"
-          value={emailAdotante}
-          onChange={(e) => setEmailAdotante(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Observações:</label>
-        <textarea
-          value={observacoes}
-          onChange={(e) => setObservacoes(e.target.value)}
-          placeholder="Escreva observações adicionais aqui..."
-        />
-      </div>
-      <button type="submit">Cadastrar Adoção</button>
-    </form>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.formContainer}>
+        <h2 className={styles.formTitle}>Cadastro de Adoção</h2>
+        
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Nome do Adotante:</label>
+          <input
+            type="text"
+            className={styles.input}
+            value={nomeAdotante}
+            onChange={(e) => setNomeAdotante(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Telefone do Adotante:</label>
+          <input
+            type="tel"
+            className={styles.input}
+            value={telefoneAdotante}
+            onChange={(e) => setTelefoneAdotante(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Email do Adotante:</label>
+          <input
+            type="email"
+            className={styles.input}
+            value={emailAdotante}
+            onChange={(e) => setEmailAdotante(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Observações:</label>
+          <textarea
+            className={styles.input}
+            value={observacoes}
+            onChange={(e) => setObservacoes(e.target.value)}
+            placeholder="Escreva observações adicionais aqui..."
+          />
+        </div>
+
+        <button type="submit" className={styles.submitButton}>Cadastrar Adoção</button>
+        <button type="button" onClick={handleBack} className={styles.backButton}>Voltar</button>
+      </form>
+    </div>
   );
 };
 

@@ -1,18 +1,17 @@
-// components/AnimalForm.js
-"use client"; // Garante que este componente seja renderizado no lado do cliente
+"use client";
 
 import { useState } from 'react';
+import styles from '../styles/AnimalForm.module.css'; // Importando o CSS
 
 const AnimalForm = () => {
   const [nome, setNome] = useState('');
   const [especie, setEspecie] = useState('');
   const [idade, setIdade] = useState('');
   const [tamanho, setTamanho] = useState('');
-  const [idAbrigo, setIdAbrigo] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const animal = { nome, especie, idade, tamanho, idAbrigo };
+    const animal = { nome, especie, idade, tamanho };
 
     try {
       const response = await fetch('http://localhost:8080/animais', {
@@ -29,7 +28,6 @@ const AnimalForm = () => {
         setEspecie('');
         setIdade('');
         setTamanho('');
-        setIdAbrigo('');
       } else {
         const errorData = await response.json();
         alert(`Erro ao cadastrar o animal: ${errorData.message || 'Erro desconhecido.'}`);
@@ -40,30 +38,62 @@ const AnimalForm = () => {
     }
   };
 
+  const handleGoBack = () => {
+    window.history.back(); // Volta para a página anterior
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Nome:</label>
-        <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} required />
+    <div className={styles.container}>
+      <div className={styles.formContainer}>
+        <h2 className={styles.formTitle}>Cadastro de Animal</h2>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Nome:</label>
+            <input
+              type="text"
+              className={styles.input}
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Espécie:</label>
+            <input
+              type="text"
+              className={styles.input}
+              value={especie}
+              onChange={(e) => setEspecie(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Idade:</label>
+            <input
+              type="text"
+              className={styles.input}
+              value={idade}
+              onChange={(e) => setIdade(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Tamanho:</label>
+            <input
+              type="text"
+              className={styles.input}
+              value={tamanho}
+              onChange={(e) => setTamanho(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className={styles.submitButton}>Cadastrar Animal</button>
+        </form>
+
+        <button onClick={handleGoBack} className={styles.backButton}>Voltar</button>
       </div>
-      <div>
-        <label>Espécie:</label>
-        <input type="text" value={especie} onChange={(e) => setEspecie(e.target.value)} required />
-      </div>
-      <div>
-        <label>Idade:</label>
-        <input type="text" value={idade} onChange={(e) => setIdade(e.target.value)} required />
-      </div>
-      <div>
-        <label>Tamanho:</label>
-        <input type="text" value={tamanho} onChange={(e) => setTamanho(e.target.value)} required />
-      </div>
-      <div>
-        <label>ID do Abrigo:</label>
-        <input type="text" value={idAbrigo} onChange={(e) => setIdAbrigo(e.target.value)} required />
-      </div>
-      <button type="submit">Cadastrar Animal</button>
-    </form>
+    </div>
   );
 };
 
